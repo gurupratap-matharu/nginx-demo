@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: backend/Dockerfile
     container_name: django
-    command: python manage.py runserver
+    command: gunicorn --config gunicorn-cfg.py main.wsgi
     ports:
       - "8000:8000"
     volumes:
