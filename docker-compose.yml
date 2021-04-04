@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  django:
+  web:
     build:
       context: .
       dockerfile: backend/Dockerfile
@@ -11,6 +11,8 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/code
+    networks: 
+      - main
       
   nginx:
     container_name: nginx
@@ -21,3 +23,12 @@ services:
       - "80:80"
     volumes:
       - ./nginx/dev/dev.conf:/etc/nginx/nginx.conf:ro
+      - ./backend/staticfiles:/usr/src/app/assets
+    depends_on:
+      - web
+    networks:
+      - main
+
+networks:
+  main:
+    driver: bridge
